@@ -7,6 +7,13 @@
             <h1 id="title">Gravity</h1>
         </header>
         <div id="container">
+            <p class="text container">
+                This is a simulation of gravity using Newton's law of motion:
+                \(\sum{\overrightarrow{F}} = ma\)<br>
+                and Newton's law of gravity:
+                \(\overrightarrow{F_{a \rightarrow b}} = G \frac{m_a m_b}{d_{ab}^2} \overrightarrow{u_{ba}}\)<br>
+                To make things interesting, I've set the particles to repulse themselves if they come too close together. You can play with that parameter using the slider below.
+            </p>
             <canvas id="canvas"></canvas>
             <div style="display: flex;">
                 <span class="text">Number of particles: </span>
@@ -19,6 +26,8 @@
                 <span class="text" id="min_distance_placeholder">50</span>
             </div>
         </div>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script src="../../lib/matrix.js"></script>
         <script src="../../template/utils.js"></script>
         <script src="gravity.js"></script>
