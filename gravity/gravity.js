@@ -1,38 +1,3 @@
-<canvas id="canvas"></canvas>
-<div style="display: flex;">
-    <span>Number of particles: </span>
-    <input type="range" min="100" max="1000" value="500" id="total_particles">
-    <span id="total_particles_placeholder">500</span>
-</div>
-<div style="display: flex;">
-    <span>Min distance between particles before repulsion: </span>
-    <input type="range" min="0" max="200" value="50" id="min_distance">
-    <span id="min_distance_placeholder">50</span>
-</div>
-
-<script>
-const WIDTH = 500
-const HEIGHT = 500
-
-const canvas = document.getElementById("canvas")
-const ctx = canvas.getContext("2d")
-
-canvas.width = WIDTH
-canvas.height = HEIGHT
-
-const total_particles_slider = document.getElementById("total_particles")
-const total_particles_placeholder = document.getElementById("total_particles_placeholder")
-
-const min_distance_slider = document.getElementById("min_distance")
-const min_distance_placeholder = document.getElementById("min_distance_placeholder")
-
-const draw_rectangle = (x, y, w, h, color) => {
-    ctx.fillStyle = color
-    ctx.fillRect(x, y, w, h)
-}
-
-const clear_canvas = () => draw_rectangle(0, 0, WIDTH, HEIGHT, "black")
-
 const rgb = (r, g, b) => `rgb(${r}, ${g}, ${b})`
 
 const random_int = (max) => Math.floor(max * Math.random())
@@ -106,6 +71,12 @@ class Particle {
 
 const create_particles = (total) => Array.from(Array(total), () => new Particle(WIDTH * Math.random(), HEIGHT * Math.random(), 0, 0))
 
+const total_particles_slider = document.getElementById("total_particles")
+const total_particles_placeholder = document.getElementById("total_particles_placeholder")
+
+const min_distance_slider = document.getElementById("min_distance")
+const min_distance_placeholder = document.getElementById("min_distance_placeholder")
+
 min_distance_slider.oninput = function() {
     min_distance = parseInt(this.value);
     min_distance_placeholder.innerText = min_distance
@@ -140,7 +111,4 @@ const update = () => {
     requestAnimationFrame(update)
 }
 
-clear_canvas()
 update()
-
-</script>

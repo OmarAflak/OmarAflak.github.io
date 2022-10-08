@@ -1,24 +1,3 @@
-<canvas id="canvas"></canvas>
-<script src="matrix.js"></script>
-<script>
-const WIDTH = 500
-const HEIGHT = 500
-
-const canvas = document.getElementById("canvas")
-const ctx = canvas.getContext("2d")
-
-canvas.width = WIDTH
-canvas.height = HEIGHT
-
-const center = [WIDTH / 2, HEIGHT / 2, 0]
-
-const draw_rectangle = (x, y, w, h, color) => {
-    ctx.fillStyle = color
-    ctx.fillRect(x, y, w, h)
-}
-
-const clear_canvas = () => draw_rectangle(0, 0, WIDTH, HEIGHT, "black")
-
 const create_donut = (donut_radius, ring_radius) => {
     const circle = create_matrix_by_columns(100, (i) => {
         const theta = 2 * Math.PI * i / 100
@@ -35,10 +14,11 @@ const create_donut = (donut_radius, ring_radius) => {
         donut = matrix_concat_columns(donut, matrix_rotate_y(circle, theta))
     }
 
-    return matrix_add_columns(donut, center)
+    return matrix_add_columns(donut, CENTER3)
 }
 
 const rotation = rotation_matrix_xyz(Math.PI / 200, Math.PI / 100, Math.PI / 60)
+
 let donut = create_donut(150, 80)
 
 const update = () => {
@@ -46,11 +26,8 @@ const update = () => {
     for (let p of columnsOf(donut)) {
         draw_rectangle(p[0], p[1], 1, 1, "white")
     } 
-    donut = matrix_add_columns(matrix_dot(rotation, matrix_sub_columns(donut, center)), center)
+    donut = matrix_add_columns(matrix_dot(rotation, matrix_sub_columns(donut, CENTER3)), CENTER3)
     requestAnimationFrame(update)
 }
 
-clear_canvas()
 update()
-
-</script>

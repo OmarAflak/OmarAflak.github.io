@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="../template/styles.css">
+    </head>
+    <body>
+        <header>
+            <h1 id="title">Gravity</h1>
+        </header>
+        <div id="container">
+            <canvas id="canvas"></canvas>
+            <div style="display: flex;">
+                <span class="text">Number of particles: </span>
+                <input type="range" min="100" max="1000" value="500" id="total_particles">
+                <span class="text" id="total_particles_placeholder">500</span>
+            </div>
+            <div style="display: flex;">
+                <span class="text">Min distance between particles before repulsion: </span>
+                <input type="range" min="0" max="200" value="50" id="min_distance">
+                <span class="text" id="min_distance_placeholder">50</span>
+            </div>
+        </div>
+        <script src="../lib/matrix.js"></script>
+        <script src="../template/utils.js"></script>
+        <script src="gravity.js"></script>
+    </body>
+</html>
