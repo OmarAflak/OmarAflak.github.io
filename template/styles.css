@@ -42,7 +42,11 @@ canvas {
 .container {
     display: flex;
     justify-content: center;
-    align-items: center;
     flex-direction: column;
+    text-align: justify;
     width: 60%;
+}
+
+.center {
+    align-self: center;
 }
