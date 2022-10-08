@@ -1,4 +1,15 @@
 <canvas id="canvas"></canvas>
+<div style="display: flex;">
+    <span>Number of particles: </span>
+    <input type="range" min="100" max="1000" value="500" id="total_particles">
+    <span id="total_particles_placeholder">500</span>
+</div>
+<div style="display: flex;">
+    <span>Min distance between particles before repulsion: </span>
+    <input type="range" min="0" max="200" value="50" id="min_distance">
+    <span id="min_distance_placeholder">50</span>
+</div>
+
 <script>
 const WIDTH = 500
 const HEIGHT = 500
@@ -8,6 +19,12 @@ const ctx = canvas.getContext("2d")
 
 canvas.width = WIDTH
 canvas.height = HEIGHT
+
+const total_particles_slider = document.getElementById("total_particles")
+const total_particles_placeholder = document.getElementById("total_particles_placeholder")
+
+const min_distance_slider = document.getElementById("min_distance")
+const min_distance_placeholder = document.getElementById("min_distance_placeholder")
 
 const draw_rectangle = (x, y, w, h, color) => {
     ctx.fillStyle = color
@@ -34,7 +51,7 @@ class Particle {
         this.size = 2
     }
 
-    update(particles, iteration) {
+    update(particles, iteration, min_distance) {
         if (iteration % 15 == 0) {
             this.color = random_color()
         }
@@ -50,7 +67,7 @@ class Particle {
             const dx = p.x - this.x
             const dy = p.y - this.y
             const distance = dx * dx + dy * dy
-            let g = Math.sqrt(distance) < 50 ? -1 : 1
+            let g = Math.sqrt(distance) < min_distance ? -1 : 1
 
             ax += g * dx / distance
             ay += g * dy / distance
@@ -87,15 +104,36 @@ class Particle {
     }
 }
 
-const particles = Array.from(Array(1000), () => new Particle(WIDTH * Math.random(), HEIGHT * Math.random(), 0, 0))
+const create_particles = (total) => Array.from(Array(total), () => new Particle(WIDTH * Math.random(), HEIGHT * Math.random(), 0, 0))
+
+min_distance_slider.oninput = function() {
+    min_distance = parseInt(this.value);
+    min_distance_placeholder.innerText = min_distance
+}
+
+total_particles_slider.oninput = function() {
+    total_particles = parseInt(this.value);
+    total_particles_placeholder.innerText = total_particles
+    should_recreate_particles = true
+}
+
 let iteration = 0
+let min_distance = 50
+let total_particles = 500
+let should_recreate_particles = false
+let particles = create_particles(total_particles)
 
 const update = () => {
     clear_canvas()
     
     for (const p of particles) {
-        p.update(particles, iteration)
+        p.update(particles, iteration, min_distance)
         p.draw()
+    }
+
+    if (should_recreate_particles) {
+        should_recreate_particles = false
+        particles = create_particles(total_particles)
     }
     
     iteration += 1
