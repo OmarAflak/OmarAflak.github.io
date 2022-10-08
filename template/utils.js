@@ -18,7 +18,3 @@ const draw_rectangle = (x, y, w, h, color) => {
 }
 
 const clear_canvas = () => draw_rectangle(0, 0, WIDTH, HEIGHT, "black")
-
-window.onload = () => {
-    clear_canvas()
-}
