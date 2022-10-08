@@ -19,7 +19,7 @@ const create_donut = (donut_radius, ring_radius) => {
 
 const rotation = rotation_matrix_xyz(Math.PI / 200, Math.PI / 100, Math.PI / 60)
 
-let donut = create_donut(150, 80)
+let donut = create_donut(100, 60)
 
 const update = () => {
     clear_canvas()
