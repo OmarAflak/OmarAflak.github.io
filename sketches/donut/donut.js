@@ -1,6 +1,6 @@
 const create_donut = (donut_radius, ring_radius) => {
-    const circle = create_matrix_by_columns(100, (i) => {
-        const theta = 2 * Math.PI * i / 100
+    const circle = create_matrix_by_columns(60, (i) => {
+        const theta = 2 * Math.PI * i / 60
         return [
             ring_radius * Math.cos(theta) + donut_radius,
             ring_radius * Math.sin(theta),
@@ -9,8 +9,8 @@ const create_donut = (donut_radius, ring_radius) => {
     })
 
     let donut = [[], [], []]
-    for (var i=0; i<200; i++) {
-        const theta = 2 * Math.PI * i / 200
+    for (var i=0; i<150; i++) {
+        const theta = 2 * Math.PI * i / 150
         donut = matrix_concat_columns(donut, matrix_rotate_y(circle, theta))
     }
 
