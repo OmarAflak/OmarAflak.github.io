@@ -1,0 +1,108 @@
+<canvas id="canvas"></canvas>
+<script>
+const WIDTH = 500
+const HEIGHT = 500
+
+const canvas = document.getElementById("canvas")
+const ctx = canvas.getContext("2d")
+
+canvas.width = WIDTH
+canvas.height = HEIGHT
+
+const draw_rectangle = (x, y, w, h, color) => {
+    ctx.fillStyle = color
+    ctx.fillRect(x, y, w, h)
+}
+
+const clear_canvas = () => draw_rectangle(0, 0, WIDTH, HEIGHT, "black")
+
+const rgb = (r, g, b) => `rgb(${r}, ${g}, ${b})`
+
+const random_int = (max) => Math.floor(max * Math.random())
+
+const random_color = () => rgb(random_int(255), random_int(255), random_int(255))
+
+const magnitude = (x, y) => Math.sqrt(x * x + y * y)
+
+class Particle {
+    constructor(x, y, vx, vy) {
+        this.x = x
+        this.y = y
+        this.vx = vx
+        this.vy = vy
+        this.color = random_color()
+        this.size = 2
+    }
+
+    update(particles, iteration) {
+        if (iteration % 15 == 0) {
+            this.color = random_color()
+        }
+
+        let ax = 0
+        let ay = 0
+
+        for (const p of particles) {
+            if (p == this) {
+                continue;
+            }
+
+            const dx = p.x - this.x
+            const dy = p.y - this.y
+            const distance = dx * dx + dy * dy
+            let g = Math.sqrt(distance) < 50 ? -1 : 1
+
+            ax += g * dx / distance
+            ay += g * dy / distance
+        }
+
+        const l = magnitude(ax, ay)
+        if (l > 0.2) {
+            ax *= 0.2 / l
+            ay *= 0.2 / l
+        }
+        
+        this.vx += ax
+        this.vy += ay
+
+        const ll = magnitude(this.vx, this.vy)
+        if (ll > 4) {
+            this.vx *= 4 / ll
+            this.vy *= 4 / ll
+        }
+
+        this.x += this.vx
+        this.y += this.vy
+
+        if (this.x <= 0 || this.x + this.size >= WIDTH) {
+            this.vx *= -1
+        }
+        if (this.y <= 0 || this.y + this.size >= HEIGHT) {
+            this.vy *= -1
+        }
+    }
+
+    draw() {
+        draw_rectangle(this.x, this.y, this.size, this.size, this.color)
+    }
+}
+
+const particles = Array.from(Array(1000), () => new Particle(WIDTH * Math.random(), HEIGHT * Math.random(), 0, 0))
+let iteration = 0
+
+const update = () => {
+    clear_canvas()
+    
+    for (const p of particles) {
+        p.update(particles, iteration)
+        p.draw()
+    }
+    
+    iteration += 1
+    requestAnimationFrame(update)
+}
+
+clear_canvas()
+update()
+
+</script>
