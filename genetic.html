@@ -28,6 +28,7 @@
 <div id="population_size" style="width:600px;height:250px;"></div>
 <div id="survival_ratio" style="width:600px;height:250px;"></div>
 <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
+<script src="matrix.js"></script>
 <script>
 const WIDTH = 500
 const HEIGHT = 500
@@ -45,38 +46,6 @@ const survival_ratio_plot = document.getElementById("survival_ratio")
 Plotly.newPlot(survival_ratio_plot, [{y: [], type: "scatter"}], {title: "Survival ratio"})
 
 const statusText = document.getElementById("status")
-
-const create_matrix = (height, width, init) => {
-    return Array.from(Array(height), () => Array.from(Array(width), () => init()))
-}
-
-const dot = (matrix1, matrix2) => {
-    const height = matrix1.length
-    const width = matrix2[0].length
-    const output = create_matrix(height, width, () => 0)
-    for (var i=0; i<height; i++) {
-        for (var j=0; j<width; j++) {
-            let tmp = 0
-            for (var k=0; k<matrix2.length; k++) {
-                tmp += matrix1[i][k] * matrix2[k][j]
-            }
-            output[i][j] = tmp
-        }
-    }
-    return output
-}
-
-const apply = (matrix, fun) => {
-    const height = matrix.length
-    const width = matrix[0].length
-    const output = create_matrix(height, width, () => 0)
-    for (var i=0; i<height; i++) {
-        for (var j=0; j<width; j++) {
-            output[i][j] = fun(matrix[i][j])
-        }
-    }
-    return output
-}
 
 class Brain {
     constructor() {
@@ -96,7 +65,7 @@ class Brain {
         ]
 
         // mini neural network
-        const output = apply(dot(inputs, this.weights), Math.tanh)
+        const output = matrix_apply(matrix_dot(inputs, this.weights), Math.tanh)
         
         return {
             'dx': output[0][0] - output[0][1],

@@ -10,7 +10,7 @@ const columns = (matrix) => matrix[0].length
 
 const zeros = () => 0
 
-const copy = (matrix) => create_matrix(rows(matrix), columns(matrix), (i, j) => matrix[i][j])
+const copy_matrix = (matrix) => create_matrix(rows(matrix), columns(matrix), (i, j) => matrix[i][j])
 
 const transpose = (matrix) => create_matrix(columns(matrix), rows(matrix), (i, j) => matrix[j][i])
 
