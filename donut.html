@@ -1,0 +1,97 @@
+<canvas id="canvas"></canvas>
+<script>
+const WIDTH = 500
+const HEIGHT = 500
+
+const canvas = document.getElementById("canvas")
+const ctx = canvas.getContext("2d")
+
+canvas.width = WIDTH
+canvas.height = HEIGHT
+
+const draw_rectangle = (x, y, w, h, color) => {
+    ctx.fillStyle = color
+    ctx.fillRect(x, y, w, h)
+}
+
+const clear_canvas = () => draw_rectangle(0, 0, WIDTH, HEIGHT, "black")
+
+const rotate_x = (point, rad) => {
+    const cos = Math.cos(rad)
+    const sin = Math.sin(rad)
+    return [
+        point[0],
+        cos * point[1] - sin * point[2],
+        sin * point[1] + cos * point[2]
+    ]
+}
+
+const rotate_y = (point, rad) => {
+    const cos = Math.cos(rad)
+    const sin = Math.sin(rad)
+    return [
+        cos * point[0] + sin * point[2],
+        point[1],
+        -sin * point[0] + cos * point[2]
+    ]
+}
+
+const rotate_z = (point, rad) => {
+    const cos = Math.cos(rad)
+    const sin = Math.sin(rad)
+    return [
+        cos * point[0] - sin * point[1],
+        sin * point[0] + cos * point[1],
+        point[2]
+    ]
+}
+
+const rotate_xyz = (points, around, rad_x, rad_y, rad_z) => {
+    return points.map((p) => {
+        const tp = [p[0] - around[0], p[1] - around[1], p[2] - around[2]]
+        const rtp = rotate_z(rotate_y(rotate_x(tp, rad_x), rad_y), rad_z)
+        return [rtp[0] + around[0], rtp[1] + around[1], rtp[2] + around[2]]
+    })
+}
+
+const create_donut = (donut_radius, ring_radius) => {
+    const circle = []
+    for (var i=0; i<100; i++) {
+        const theta = 2 * Math.PI * i / 100
+        circle.push([
+            ring_radius * Math.cos(theta) + donut_radius,
+            ring_radius * Math.sin(theta),
+            0
+        ])
+    }
+
+    const donut = []
+    for (var i=0; i<200; i++) {
+        const theta = 2 * Math.PI * i / 200
+        for (let p of circle) {
+            donut.push(rotate_y(p, theta))
+        }
+    }
+
+    return donut.map((p) => [p[0] + WIDTH / 2, p[1] + HEIGHT / 2, p[2]])
+}
+
+let donut = create_donut(150, 80)
+
+const update = () => {
+    clear_canvas()
+    for (let p of donut) {
+        draw_rectangle(p[0], p[1], 1, 1, "white")
+    }
+    donut = rotate_xyz(
+        donut,
+        [WIDTH / 2, HEIGHT / 2, 0],
+        Math.PI / 200,
+        Math.PI / 100,
+        Math.PI / 60
+    )
+    requestAnimationFrame(update)
+}
+update()
+
+</script>
