@@ -17,4 +17,12 @@ const draw_rectangle = (x, y, w, h, color) => {
     ctx.fillRect(x, y, w, h)
 }
 
+const draw_line = (sx, sy, ex, ey, color) => {
+    ctx.strokeStyle = color
+    ctx.beginPath()
+    ctx.moveTo(sx, sy)
+    ctx.lineTo(ex, ey)
+    ctx.stroke()
+}
+
 const clear_canvas = () => draw_rectangle(0, 0, WIDTH, HEIGHT, "black")

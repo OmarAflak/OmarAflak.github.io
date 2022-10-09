@@ -143,6 +143,8 @@ const update = () => {
         clear_canvas()
     }
 
+    draw_line(WIDTH / 2, 0, WIDTH / 2, HEIGHT, "red")
+
     for (let p of particles) {
         p.update()
         if (should_draw) {
