@@ -1,9 +1,3 @@
-const rgb = (r, g, b) => `rgb(${r}, ${g}, ${b})`
-
-const random_int = (max) => Math.floor(max * Math.random())
-
-const random_color = () => rgb(random_int(255), random_int(255), random_int(255))
-
 const magnitude = (x, y) => Math.sqrt(x * x + y * y)
 
 class Particle {
@@ -12,13 +6,13 @@ class Particle {
         this.y = y
         this.vx = vx
         this.vy = vy
-        this.color = random_color()
+        this.color = random_rgba()
         this.size = 2
     }
 
     update(particles, iteration, min_distance) {
         if (iteration % 15 == 0) {
-            this.color = random_color()
+            this.color = random_rgba()
         }
 
         let ax = 0
