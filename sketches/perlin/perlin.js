@@ -101,8 +101,8 @@ let z = 0
 const update = () => {
     for (var i=0; i<noise_height; i++) {
         for (var j=0; j<noise_width; j++) {
-            const p = noise.get(i * 0.1, j * 0.1, z)
-            const angle = p * 2 * Math.PI
+            const r = noise.get(i * 0.1, j * 0.1, z)
+            const angle = 2 * Math.PI * r
             perlin[i][j] = [Math.cos(angle), Math.sin(angle)]
         }
     }
