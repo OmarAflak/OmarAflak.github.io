@@ -1,16 +1,25 @@
-const WIDTH = 500
-const HEIGHT = 500
+let WIDTH = 500
+let HEIGHT = 500
 
 const canvas = document.getElementById("canvas")
 const ctx = canvas.getContext("2d")
 
+canvas.height = HEIGHT
+canvas.width = WIDTH
+
+let CENTER = [WIDTH / 2, HEIGHT / 2]
+let CENTER3 = [...CENTER, 0]
+
 const title = document.getElementById("title")
 
-canvas.width = WIDTH
-canvas.height = HEIGHT
-
-const CENTER = [WIDTH / 2, HEIGHT / 2]
-const CENTER3 = [...CENTER, 0]
+const resize_canvas = (width, height) => {
+    HEIGHT = height
+    WIDTH = width
+    CENTER = [width / 2, height / 2]
+    CENTER3 = [...CENTER, 0]
+    canvas.height = height
+    canvas.width = width
+}
 
 const draw_rectangle = (x, y, w, h, color) => {
     ctx.fillStyle = color
@@ -25,4 +34,10 @@ const draw_line = (sx, sy, ex, ey, color) => {
     ctx.stroke()
 }
 
-const clear_canvas = () => draw_rectangle(0, 0, WIDTH, HEIGHT, "black")
+const random_int = (max) => Math.floor(max * Math.random())
+
+const rgba = (r, g, b, a = 1) => `rgba(${r}, ${g}, ${b}, ${a})`
+
+const random_rgba = (alpha = Math.random()) => rgba(random_int(255), random_int(255), random_int(255), alpha)
+
+const clear_canvas = (color = "black") => draw_rectangle(0, 0, WIDTH, HEIGHT, color)
