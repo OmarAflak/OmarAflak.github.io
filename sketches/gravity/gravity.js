@@ -6,7 +6,7 @@ class Particle {
         this.y = y
         this.vx = vx
         this.vy = vy
-        this.color = random_rgba()
+        this.color = random_rgba(1)
         this.size = 3
     }
 
