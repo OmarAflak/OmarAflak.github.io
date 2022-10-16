@@ -10,11 +10,7 @@ class Particle {
         this.size = 2
     }
 
-    update(particles, iteration, min_distance) {
-        if (iteration % 15 == 0) {
-            this.color = random_rgba()
-        }
-
+    update(particles, min_distance) {
         let ax = 0
         let ay = 0
 
@@ -82,7 +78,6 @@ total_particles_slider.oninput = function() {
     should_recreate_particles = true
 }
 
-let iteration = 0
 let min_distance = 50
 let total_particles = 500
 let should_recreate_particles = false
@@ -92,7 +87,7 @@ const update = () => {
     clear_canvas()
     
     for (const p of particles) {
-        p.update(particles, iteration, min_distance)
+        p.update(particles, min_distance)
         p.draw()
     }
 
@@ -100,8 +95,7 @@ const update = () => {
         should_recreate_particles = false
         particles = create_particles(total_particles)
     }
-    
-    iteration += 1
+
     requestAnimationFrame(update)
 }
 
