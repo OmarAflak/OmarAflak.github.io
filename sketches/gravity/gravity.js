@@ -7,7 +7,7 @@ class Particle {
         this.vx = vx
         this.vy = vy
         this.color = random_rgba()
-        this.size = 2
+        this.size = 3
     }
 
     update(particles, min_distance) {
