@@ -34,6 +34,14 @@ const draw_line = (sx, sy, ex, ey, color) => {
     ctx.stroke()
 }
 
+const draw_circle = (x, y, radius, color) => {
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, 2 * Math.PI, false)
+    ctx.lineWidth = 2
+    ctx.strokeStyle = color
+    ctx.stroke();
+}
+
 const random_int = (max) => Math.floor(max * Math.random())
 
 const rgba = (r, g, b, a = 1) => `rgba(${r}, ${g}, ${b}, ${a})`
