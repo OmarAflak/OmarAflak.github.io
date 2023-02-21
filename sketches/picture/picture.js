@@ -24,12 +24,16 @@ const update_point = (time, point, velocity) => {
 
 
 let target_points = SMILEY
+let color = "yellow"
 
 const query = window.location.search
 const params = new URLSearchParams(query)
 const svg = params.get('svg')
 if (svg == 'google') {
     target_points = GOOGLE
+} else if (svg == 'paloma') {
+    target_points = HEART
+    color = "pink"
 }
 
 const points = target_points.map(_ => create_point(X0, Y0))
@@ -46,7 +50,7 @@ const update = () => {
             continue;
         }
         update_point(t - time, points[i], velocities[i])
-        draw_rectangle(points[i].x, points[i].y, 3, 3, 'yellow')
+        draw_rectangle(points[i].x, points[i].y, 3, 3, color)
     }
 
     t += 0.3
