@@ -9,11 +9,12 @@ def print_str(points: list[tuple[float, float]]):
     for p in points:
         print(f"create_point({p[0]}, {p[1]}),")
 
-paths, _ = svg2paths("happy.svg")
+paths, _ = svg2paths("google-full.svg")
 
 points = [
     point
     for path in paths
-    for point in points_from_path(path, int(path.length()), 10, 400, 400)
+    for point in points_from_path(path, int(path.length()) // 20, 1, 200, 400)
 ]
 print_str(points)
+print(len(points))
