@@ -19,6 +19,9 @@ const compute_velocity = (target_t, target_x, target_y) => {
 }
 
 const update_point = (time, point, velocity) => {
+    if (point.y > HEIGHT - 10) {
+        return;
+    }
     point.x = velocity.x * time + X0
     point.y = 0.5 * G * time * time + velocity.y * time + Y0
 }
