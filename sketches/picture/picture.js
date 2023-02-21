@@ -36,6 +36,10 @@ if (svg == 'google') {
     color = "pink"
 }
 
+if (params.get('shuffle')) {
+    target_points.sort(() => (Math.random() > 0.5) ? 1 : -1)
+}
+
 const points = target_points.map(_ => create_point(X0, Y0))
 const velocities = target_points.map((p, i) => compute_velocity(i * DELTA_TIME, p.x, p.y))
 
