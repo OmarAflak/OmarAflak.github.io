@@ -25,14 +25,14 @@ def offset_to_center_in_frame(paths: list[Path], scale: float, width: float, hei
     dy = scale * (ymax - ymin) / 2
     return (width / 2 - dx, height / 2 - dy)
 
-paths, _ = svg2paths("thanks.svg")
-scale = 2
+paths, _ = svg2paths("google.svg")
+scale = 1
 offset = offset_to_center_in_frame(paths, scale, 1000, 1000)
 
 points = [
     point
     for path in paths
-    for point in points_from_path(path, int(path.length()) // 6, scale, offset[0], offset[1])
+    for point in points_from_path(path, int(path.length()) // 8, scale, offset[0], offset[1])
 ]
 print_str(points)
 print(len(points))
