@@ -61,9 +61,7 @@ if (svg == 'google') {
     color = "pink"
 }
 
-if (params.get('shuffle')) {
-    target_points.sort(() => (Math.random() > 0.5) ? 1 : -1)
-}
+target_points.sort(() => (Math.random() > 0.5) ? 1 : -1)
 
 const half = Math.floor(target_points.length / 2)
 const bottom_left = create_point(GAP + 400, HEIGHT - GAP)
