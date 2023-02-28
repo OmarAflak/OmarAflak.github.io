@@ -19,19 +19,20 @@ def bounding_box(paths: list[Path]) -> tuple[float, float, float, float]:
         ymax = max(ymax, ymax2)
     return xmin, xmax, ymin, ymax
 
-def offset_to_center_in_frame(paths: list[Path], width: float, height: float) -> tuple[float, float]:
+def offset_to_center_in_frame(paths: list[Path], scale: float, width: float, height: float) -> tuple[float, float]:
     xmin, xmax, ymin, ymax = bounding_box(paths)
-    dx = (xmax - xmin) / 2
-    dy = (ymax - ymin) / 2
+    dx = scale * (xmax - xmin) / 2
+    dy = scale * (ymax - ymin) / 2
     return (width / 2 - dx, height / 2 - dy)
 
 paths, _ = svg2paths("thanks.svg")
-offset = offset_to_center_in_frame(paths, 1000, 1000)
+scale = 2
+offset = offset_to_center_in_frame(paths, scale, 1000, 1000)
 
 points = [
     point
     for path in paths
-    for point in points_from_path(path, int(path.length()) // 8, 1, offset[0], offset[1])
+    for point in points_from_path(path, int(path.length()) // 6, scale, offset[0], offset[1])
 ]
 print_str(points)
 print(len(points))
