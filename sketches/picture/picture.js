@@ -12,38 +12,38 @@ const compute_velocity = (start, end, target_time) => {
     return create_point(v0x, v0y)
 }
 
-const update_particle = (particle, time) => {
-    if (particle.position.y > HEIGHT - 10) {
-        return;
-    }
-    particle.position.x = particle.velocity.x * time + particle.start.x
-    particle.position.y = 0.5 * G * time * time + particle.velocity.y * time + particle.start.y
-}
-
 const create_particle = (start, end, time) => {
     const s = copy_point(start)
     const e = copy_point(end)
     return {
         'start': s,
+        'end': e,
         'position': copy_point(start),
         'velocity': compute_velocity(s, e, time),
         'time': time
     }
 }
 
+const update_particle = (particle, time) => {
+    const t = time - particle.time
+    if (t < 0 || (particle.position.y > HEIGHT - 10 && time > 30)) {
+        return;
+    }
+    particle.position.x = particle.velocity.x * t + particle.start.x
+    particle.position.y = 0.5 * G * t * t + particle.velocity.y * t + particle.start.y
+}
+
 const draw_particle = (particle, color) => {
     draw_rectangle(particle.position.x, particle.position.y, 3, 3, color)
 }
 
+const update_and_draw_particle = (particle, time) => {
+    update_particle(particle, time)
+    draw_particle(particle, color)
+}
+
 const update_and_draw_particles = (particles, time) => {
-    for (let i=0; i<particles.length; i++) {
-        const t = particles[i].time
-        if (time <= t) {
-            continue;
-        }
-        update_particle(particles[i], time - t)
-        draw_particle(particles[i], color)
-    }
+    particles.forEach(particle => update_and_draw_particle(particle, time))
 }
 
 let target_points = SMILEY
@@ -66,10 +66,11 @@ target_points.sort(() => (Math.random() > 0.5) ? 1 : -1)
 const half = Math.floor(target_points.length / 2)
 const bottom_left = create_point(GAP + 400, HEIGHT - GAP)
 const bottom_right = create_point(WIDTH - GAP - 400, HEIGHT - GAP)
-const particles1 = target_points.filter((p, i) => i < half).map((p, i) => create_particle(bottom_left, p, i * DELTA_TIME))
-const particles2 = target_points.filter((p, i) => i >= half).map((p, i) => create_particle(bottom_right, p, i * DELTA_TIME))
+const particles1 = target_points.filter((p, i) => i >= half).map((p, i) => create_particle(bottom_left, p, i * DELTA_TIME))
+const particles2 = target_points.filter((p, i) => i < half).map((p, i) => create_particle(bottom_right, p, i * DELTA_TIME))
 
 let t = 0
+const RESTART_ANIMATION_TIME = 100
 
 const update = () => {
     clear_canvas()
