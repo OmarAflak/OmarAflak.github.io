@@ -4,6 +4,7 @@ const size = 5
 const height = HEIGHT / size
 const width = WIDTH / size
 const grid = Array.from(Array(height), () => Array(width).fill(0))
+const rect = canvas.getBoundingClientRect();
 
 hsl = (h, s, l) => `hsl(${h}, ${s}%, ${l}%)`
 
@@ -61,8 +62,8 @@ update = () => {
 
 let hue = 0
 document.onmousemove = (event) => {
-    const r = Math.floor(event.clientY / size)
-    const c = Math.floor(event.clientX / size)
+    const r = Math.floor((event.clientY - rect.top) / size)
+    const c = Math.floor((event.clientX - rect.left) / size)
     for (let i=-2; i<3; i++) {
         for (let j=-2; j<3; j++) {
             if (0 <= r + i && r + i < height && 0 <= c + j && c + j < width) {
