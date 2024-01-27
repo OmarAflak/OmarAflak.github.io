@@ -7,6 +7,14 @@
             <h1 id="title">Sand</h1>
         </header>
         <div id="container">
+            <div class="text container">
+                <span class="text">
+                    This is a sand simulation that works as a cellular automata. Each grain of sand is updated according to the value of its direct three bottom neighbors.
+                    If the bottom cell is empty then the grain of sand falls in it. If the bottom cell is another grain of sand, then the grain of sand will stop or fall either side of that other grain of sand if those cells are free.
+                </span>
+                <br>
+                <span>Pass your mouse over the canvas to release sand!</span>
+            </div>
             <canvas id="canvas"></canvas>
         </div>
         <script src="../../template/utils.js"></script>
